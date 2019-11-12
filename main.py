@@ -1,7 +1,7 @@
 import sys
 import random
 from PyQt5 import uic
-from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtGui import QPainter, QPen, QColor
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication
 
@@ -17,14 +17,15 @@ class MainWindow(QMainWindow):
     def add_circle(self):
         x, y, r = random.randint(0, self.geometry().width()), random.randint(0, self.geometry().height()), \
                   random.randint(0, 50)
-        self.circles.append((x, y, r))
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        self.circles.append((x, y, r, color))
         self.update()
     
     def paintEvent(self, *args, **kwargs):
         painter = QPainter(self)
-        painter.setPen(QPen(Qt.yellow, 8, Qt.SolidLine))
 
-        for x, y, r in self.circles:
+        for x, y, r, color in self.circles:
+            painter.setPen(QPen(QColor(*color), 8, Qt.SolidLine))
             painter.drawEllipse(x - r, y - r, x + r, y + r)
 
 
